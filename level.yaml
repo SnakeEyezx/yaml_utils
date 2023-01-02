@@ -1,0 +1,62 @@
+version: "3"
+
+networks:
+  loki: 3
+
+services:
+  loki:
+    image: grafana/loki:2.6.1
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      rollback_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+      update_config:
+        parallelism: 2
+        delay: 10s
+        order: stop-first
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+          pids: 1
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+      replicas: 6
+      mode: global
+      constraints:
+        - disktype=ssd
+      preferences:
+        - datacenter=us-east
+      endpoint_mode: vip
+      labels:
+        com.example.description: "This label will appear on the web service"
+      placement:
+        constraints:
+          - node.labels.mylabel0==true
+          - node.labels.mylabel1==true
+          - node.labels.mylabel2==true
+  promtail:
+    image: grafana/promtail:2.6.1
+    volumes:
+      - "C:/Users/Nitro/Desktop/docker-compose/Promatail-test/postgres.log:/var/log/postgres.log"
+      - "C:/Users/Nitro/Desktop/docker-compose/Promatail-test/promtailcfg.yml:/etc/promtail/config.yml"
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - loki
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - loki
