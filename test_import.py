@@ -40,14 +40,13 @@ def recursive_search_v2(obj,key):
             elif isinstance(obj[key], (str,int)):
                 print(f'{key}: {v}')
             else:
-                print(type(obj[key]))
+                print(trace)
 
     for k,v in obj.items():
         if isinstance(v, CommentedMap):
                 trace.append(k)
                 recursive_search_v2(v,key)
                 trace.pop()
-
 
 def change_value(obj,key,value):
     if key in obj.keys():
@@ -78,7 +77,7 @@ def func_test_list(data):
             func_test_list(v)
 
 # recursive_printer(data, '')
-recursive_search_v2(data,'constraints')
+recursive_search_v2(data,'limits2')
 # recursive_search_v2(data,'preferences')
 # change_value(data,'pids', '100M')
 # test
