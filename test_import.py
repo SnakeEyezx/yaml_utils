@@ -3,7 +3,8 @@ from ruamel.yaml.comments import CommentedMap, CommentedSeq
 data = {}
 yaml = YAML()
 trace = []
-stack = 'C:\\Users\\Nitro\\PycharmProjects\\kafkadev\\venv\\level.yaml'
+# stack = 'C:\\Users\\Nitro\\PycharmProjects\\kafkadev\\venv\\level.yaml'
+stack = 'C:\\Users\\Nitro\\PycharmProjects\\kafkadev\\venv\\labels.yml'
 
 with open(stack, 'r') as stream:
     data = yaml.load(stream)
@@ -48,6 +49,19 @@ def recursive_search_v2(obj,key):
                 recursive_search_v2(v,key)
                 trace.pop()
 
+def recursive_search_value(obj, value):
+    for k,v in obj.items():
+        if isinstance(v,CommentedMap):
+            trace.append(k)
+            recursive_search_value(v,value)
+            trace.pop()
+        elif isinstance(v,CommentedSeq) and value in v:
+            trace.append(k)
+            print(" >> ".join(s for s in trace))
+            print(v)
+            trace.pop()
+
+
 def change_value(obj,key,value):
     if key in obj.keys():
         print(" >> ".join(s for s in trace))
@@ -76,10 +90,30 @@ def func_test_list(data):
         if isinstance(v, CommentedMap):
             func_test_list(v)
 
+
+def labels_diff(host):
+    a = list(data['labels'][host])
+    b = list(data['labels']['host2'])
+    c = set(b).symmetric_difference(set(a))
+    print(c)
+
+
+# list1: [1, 2, 5, 1, 3, 4, 10]
+# {{ list1 | unique }}
+# => [1, 2, 5, 3, 4, 10]
+
+# list1: [1, 2, 5, 1, 3, 4, 10]
+# list2: [1, 2, 3, 4, 5, 11, 99]
+# {{ list1 | symmetric_difference(list2) }}
+# => [10, 11, 99]
+
+
 # recursive_printer(data, '')
-recursive_search_v2(data,'limits2')
+# recursive_search_v2(data,'limits')
 # recursive_search_v2(data,'preferences')
 # change_value(data,'pids', '100M')
+# recursive_search_value(data,'label-A=True')
+labels_diff('host1')
 # test
 # TETS
 # func_test_list(data)

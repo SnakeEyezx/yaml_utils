@@ -1,0 +1,17 @@
+labels:
+  host0:
+    - label-A=True
+    - label-B=True
+    - label-C=True
+  host1:
+    - label-B=True
+    - label-C=True
+    - label-D=True
+  host2:
+    - label-D=True
+    - label-E=True
+    - label-F=True
+  host3:
+    - label-A=True
+    - label-F=True
+    - label-C=True
