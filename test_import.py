@@ -93,16 +93,17 @@ def func_test_list(data):
 
 def labels_diff(host):
     i = list(data['labels'][host])
-    d = list(data['labels']['host2'])
+    d = list(data['labels']['host1'])
     a = list(set(i).difference(set(d)))
     b = list(set(d).difference(set(i)))
     a.sort()
     b.sort()
-    c = set(i).symmetric_difference(set(d))
-    for h in a:
-        print(f'+ {h}')
-    for h in b:
-        print(f'- {h}')
+    c = list(set(i).symmetric_difference(set(d)))
+    if len(c) > 0 :
+        for h in a:
+            print(f'+ {h}')
+        for h in b:
+            print(f'- {h}')
 
 
 # list1: [1, 2, 5, 1, 3, 4, 10]
