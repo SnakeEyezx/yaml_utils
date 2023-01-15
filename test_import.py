@@ -92,10 +92,17 @@ def func_test_list(data):
 
 
 def labels_diff(host):
-    a = list(data['labels'][host])
-    b = list(data['labels']['host2'])
-    c = set(b).symmetric_difference(set(a))
-    print(c)
+    i = list(data['labels'][host])
+    d = list(data['labels']['host2'])
+    a = list(set(i).difference(set(d)))
+    b = list(set(d).difference(set(i)))
+    a.sort()
+    b.sort()
+    c = set(i).symmetric_difference(set(d))
+    for h in a:
+        print(f'+ {h}')
+    for h in b:
+        print(f'- {h}')
 
 
 # list1: [1, 2, 5, 1, 3, 4, 10]
@@ -113,7 +120,7 @@ def labels_diff(host):
 # recursive_search_v2(data,'preferences')
 # change_value(data,'pids', '100M')
 # recursive_search_value(data,'label-A=True')
-labels_diff('host1')
+labels_diff('host0')
 # test
 # TETS
 # func_test_list(data)
