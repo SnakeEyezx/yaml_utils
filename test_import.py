@@ -93,7 +93,7 @@ def func_test_list(data):
 
 def labels_diff(host):
     i = list(data['labels'][host])
-    d = list(data['labels']['host1'])
+    d = list(data['labels']['host2'])
     a = list(set(i).difference(set(d)))
     b = list(set(d).difference(set(i)))
     a.sort()
