@@ -3,10 +3,9 @@ from ruamel.yaml.comments import CommentedMap, CommentedSeq
 data = {}
 yaml = YAML()
 trace = []
-# stack = 'C:\\Users\\Nitro\\PycharmProjects\\kafkadev\\venv\\level.yaml'
-stack = 'C:\\Users\\Nitro\\PycharmProjects\\kafkadev\\venv\\labels.yml'
+file = 'labels.yml'
 
-with open(stack, 'r') as stream:
+with open(file, 'r') as stream:
     data = yaml.load(stream)
 
 def recursive_printer(obj,level,key):
@@ -106,25 +105,12 @@ def labels_diff(host):
             print(f'- {h}')
 
 
-# list1: [1, 2, 5, 1, 3, 4, 10]
-# {{ list1 | unique }}
-# => [1, 2, 5, 3, 4, 10]
 
-# list1: [1, 2, 5, 1, 3, 4, 10]
-# list2: [1, 2, 3, 4, 5, 11, 99]
-# {{ list1 | symmetric_difference(list2) }}
-# => [10, 11, 99]
 
 
 # recursive_printer(data, '')
 # recursive_search_v2(data,'limits')
 # recursive_search_v2(data,'preferences')
-# change_value(data,'pids', '100M')
+# change_value(data, 'pids', '100M')
 # recursive_search_value(data,'label-A=True')
 labels_diff('host0')
-# test
-# TETS
-# func_test_list(data)
-# print(test_list)
-# for i in test_list:
-#     recursive_search_v2(data,i)
